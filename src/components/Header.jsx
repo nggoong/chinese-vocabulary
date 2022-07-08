@@ -1,12 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
+import {Link} from 'react-router-dom';
 
 const Header = () => {
 
 
     return(
         <HeaderWrapper>
-        <p>중국어 단어장</p>
+        <Link to="/"><p>중국어 단어장</p></Link>
         </HeaderWrapper>
     )
 }
@@ -27,5 +28,10 @@ const HeaderWrapper = styled.div`
     left:0;
     top:0;
     border-bottom:2px solid rgb(219, 232, 216);
+
+    & > a {
+        text-decoration: none;
+        color:gray;
+    }
     
 `

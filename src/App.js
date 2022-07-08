@@ -3,7 +3,8 @@ import Header from './components/Header';
 import styled from 'styled-components';
 import { Route, Routes } from 'react-router-dom';
 import Home from './components/Home';
-import AddPage from './components/AddPage';
+import InputPage from './components/InputPage';
+
 const App = () => {
   return (
     <div className="App">
@@ -11,7 +12,7 @@ const App = () => {
       <Contents>
         <Routes>
           <Route path='/' element={<Home/>}/>
-          <Route path='/word/add' element={<AddPage/>}/>
+          <Route path='/word/add' element={<InputPage/>}/>
         </Routes>
       </Contents>
     </div>
