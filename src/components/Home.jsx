@@ -10,8 +10,8 @@ const Home = () => {
     const voca = useSelector((state)=>state.voca.data);
     const dispatch = useDispatch();
     useEffect(()=> {
-        const getVocas = async () => {
-            await dispatch(fetchVoca());
+        const getVocas = () => {
+            dispatch(fetchVoca());
         }
         getVocas();
     }, [])
