@@ -7,7 +7,7 @@ const VocaCard = ({ item }) => {
     return(
         <VocaCardWrapper>
             <MainContents>
-                <h4>{item.text}</h4>
+                <h4>{item.word}</h4>
                 <div className='actions'>
                     <div className='action-check'><p><BsCheckCircle/></p></div>
                     <div className='action-modify'><p><BsPencilSquare/></p></div>
