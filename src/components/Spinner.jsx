@@ -7,7 +7,7 @@ const Spinner = () => {
     const loading = useSelector((state) => state.voca.isLoad);
     console.log(loading)
     return(
-        <SpinnerWrapper loading={loading}>
+        <SpinnerWrapper $loading={loading}>
             <p><ImSpinner2/></p>
         </SpinnerWrapper>
     )
@@ -25,7 +25,7 @@ const SpinnerWrapper = styled.div`
     display:flex;
     justify-content:center;
     align-items:center;
-    visibility:${props => props.loading ? undefined:'hidden'};
+    visibility:${props => props.$loading ? undefined:'hidden'};
 
     & > p {
         font-size:50px;
