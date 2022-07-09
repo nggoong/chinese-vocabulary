@@ -21,7 +21,6 @@ const InputPage = ({ title }) => {
 
     const addBtnClickHandler = async () => {
         let new_data = {
-            id:2,
             word: inputRef.current.word_input,
             pinyin: inputRef.current.pinyin_input,
             mean: inputRef.current.mean_input,
