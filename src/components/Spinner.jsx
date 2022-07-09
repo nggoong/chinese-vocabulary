@@ -1,6 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
-import {ImSpinner2} from 'react-icons/im';
+import styled, { keyframes } from 'styled-components';
+import {CgSpinnerTwoAlt} from 'react-icons/cg'
 import {useSelector} from 'react-redux';
 
 const Spinner = () => {
@@ -8,12 +8,25 @@ const Spinner = () => {
     console.log(loading)
     return(
         <SpinnerWrapper $loading={loading}>
-            <p><ImSpinner2/></p>
+            <p><CgSpinnerTwoAlt/></p>
         </SpinnerWrapper>
     )
 }
 
 export default Spinner;
+
+const SpinnerRotation = keyframes`
+    0% {
+        transform:rotate(0deg);
+        
+    }
+    50%{
+        transform:rotate(180deg);
+    }
+    100% {
+        transform:rotate(360deg);
+    }
+`
 
 const SpinnerWrapper = styled.div`
     position:fixed;
@@ -26,9 +39,14 @@ const SpinnerWrapper = styled.div`
     justify-content:center;
     align-items:center;
     visibility:${props => props.$loading ? undefined:'hidden'};
+    
 
     & > p {
         font-size:50px;
         color:green;
+        transform-origin:center;
+        margin:0;
+        padding:0;
+        animation:${SpinnerRotation} 2s linear infinite ;
     }
 `
