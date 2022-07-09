@@ -21,7 +21,8 @@ const HeaderWrapper = styled.div`
     z-index:100;
     background:white;
     color:gray;
-    font-size:6vw;
+    font-size:30px;
+    margin:0;
     height:50px;
     width:100%;
     position:fixed;

@@ -20,7 +20,7 @@ const Home = () => {
     return(
         <VocaListWrapper>
         <GoToAdd><Link to="/word/add"><BsPlusLg/></Link></GoToAdd>
-         {voca.map((item, index)=><VocaCard item={item} key={index}></VocaCard>)}
+         {voca.map((item)=><VocaCard item={item} key={item.docID}></VocaCard>)}
         </VocaListWrapper>
     )
 }
