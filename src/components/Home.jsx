@@ -19,7 +19,7 @@ const Home = () => {
 
     return(
         <VocaListWrapper>
-        <Link to="/word/add"><GoToAdd><BsPlusLg/></GoToAdd></Link>
+        <GoToAdd><Link to="/word/add"><BsPlusLg/></Link></GoToAdd>
          {voca.map((item, index)=><VocaCard item={item} key={index}></VocaCard>)}
         </VocaListWrapper>
     )
@@ -47,4 +47,8 @@ const GoToAdd = styled.div`
     right:10px;
     background:rgb(10, 112, 41);
     border-radius:50%;
+
+    & > a {
+        color:white;
+    }
 `

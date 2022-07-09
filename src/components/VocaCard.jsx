@@ -32,7 +32,15 @@ const VocaCardWrapper = styled.div`
     border:2px solid rgb(10, 112, 41);
     border-radius:10px;
     background:white;
-    transition:box-shadow 300ms ease-in-out 0s;
+    transition:translate 300ms leaner 0s;
+
+    @media screen and (min-width: 768px) {
+        width: calc((100% - 20px) / 2);
+    }
+
+    @media screen and (min-width: 1024px) {
+        width: calc((100% - 40px) / 3);
+    }
 `
 
 const MainContents = styled.div`
