@@ -1,17 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
+import { fetchVoca } from '../redux/modules/vocaReducer';
+import {db} from '../firebase';
+import { doc, deleteDoc } from 'firebase/firestore';
 import {BsCheckCircle, BsPencilSquare, BsXCircle} from 'react-icons/bs';
 
 const VocaCard = ({ item }) => {
+    const dispatch = useDispatch();
+
+    const vocaDelete = async () => {
+        let result = window.confirm('정말 삭제할까요?');
+        if(result) {
+            const docRef = doc(db, 'voca', item.docID);
+            await deleteDoc(docRef);
+            alert('삭제 완료!');
+            await dispatch(fetchVoca());
+        }
+    }
 
     return(
         <VocaCardWrapper>
             <MainContents>
                 <h4>{item.word}</h4>
                 <div className='actions'>
-                    <div className='action-check'><p><BsCheckCircle/></p></div>
-                    <div className='action-modify'><p><BsPencilSquare/></p></div>
-                    <div className='action-delete'><p><BsXCircle/></p></div>
+                    <div className='action-check btn'><p><BsCheckCircle/></p></div>
+                    <div className='action-edit btn'><p><BsPencilSquare/></p></div>
+                    <div className='action-delete btn' onClick={vocaDelete}><p><BsXCircle/></p></div>
                 </div>
             </MainContents>
             <Pinyin><span>{`[${item.pinyin}]`}</span></Pinyin>
@@ -58,6 +73,10 @@ const MainContents = styled.div`
         display:flex;
         gap:11px;
         font-size:18px;
+
+        & > .btn {
+            cursor:pointer;
+        }
     }
 `
 const Pinyin = styled.div`
