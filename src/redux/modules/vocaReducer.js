@@ -1,5 +1,5 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
-import { collection, getDocs} from 'firebase/firestore';
+import { collection, getDocs, query, orderBy} from 'firebase/firestore';
 import {db} from '../../firebase';
 
 let initialState = {
@@ -9,10 +9,14 @@ let initialState = {
 
 // Thunk 생성
 export const fetchVoca = createAsyncThunk('voca/fetchVoca', async () => {
-    const res = await getDocs(collection(db, "voca"));
+    const vocaCollection = collection(db, 'voca');
+    // 타임스탬프를 기준으로 내림차순 정렬
+    // 기존에는 임의의 id를 기준으로 정렬하기 때문에 뒤죽박죽
+    const res = await getDocs(query(vocaCollection, orderBy('timestamp', 'desc')));
     let new_data = [];
     res.forEach((doc) => {
-        new_data.push(doc.data());
+        let new_obj = {...doc.data(), docID:doc.id}
+        new_data.push(new_obj);
     })
     console.log(new_data);
     return new_data;

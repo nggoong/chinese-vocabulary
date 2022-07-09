@@ -26,7 +26,8 @@ const InputPage = ({ title }) => {
             pinyin: inputRef.current.pinyin_input,
             mean: inputRef.current.mean_input,
             example: inputRef.current.example_input,
-            trans: inputRef.current.trans_input
+            trans: inputRef.current.trans_input,
+            timestamp: Number(new Date()) // 정렬을 위한 타임스탬프 추가
         }
 
         console.log(new_data);
