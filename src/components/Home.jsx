@@ -47,6 +47,7 @@ const GoToAdd = styled.div`
     right:10px;
     background:rgb(10, 112, 41);
     border-radius:50%;
+    cursor:pointer;
 
     & > a {
         color:white;
