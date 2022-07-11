@@ -5,6 +5,7 @@ import {BsPlusLg} from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 import { vocaActions, fetchVoca } from '../redux/modules/vocaReducer';
+import { fbActions } from '../redux/modules/fbReducer';
 
 const Home = () => {
     const voca = useSelector((state)=>state.voca.data);
@@ -15,6 +16,11 @@ const Home = () => {
         }
         dispatch(vocaActions.setDefaultData());
         getVocas();
+
+        return(()=> {
+            dispatch(vocaActions.setDefaultData());
+            dispatch(fbActions.updateDefaultLastVisible());
+        })
     }, [])
     
 
