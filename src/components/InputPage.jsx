@@ -7,7 +7,7 @@ import {db} from '../firebase';
 import { collection, addDoc } from 'firebase/firestore';
 import {useNavigate} from 'react-router-dom';
 
-const InputPage = ({ title }) => {
+const InputPage = ({ title, btnText }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -19,35 +19,54 @@ const InputPage = ({ title }) => {
         trans_input:''
     })
 
+    const inputRefs = useRef([]);
+
     const ChangeHandler = (e) => {
         inputRef.current = {...inputRef.current, [e.target.name]:e.target.value};
     }
+    const isComplete = () => {
+        let result = true;
+        for(let i of inputRefs.current) {
+            if(!i.value) {
+                result = false;
+                break;
+            }
+        }
+
+        return result;
+    }
 
     const addBtnClickHandler = async () => {
-        dispatch(fbActions.updateDefaultLastVisible());
-        let { word_input, pinyin_input, mean_input, example_input, trans_input } = inputRef.current;
-        let new_data = {
-            word: word_input,
-            pinyin: pinyin_input,
-            mean: mean_input,
-            example: example_input,
-            trans: trans_input,
-            timestamp: Number(new Date()) // 정렬을 위한 타임스탬프 추가
+        const check = isComplete();
+        if(!check) {
+            alert('폼을 모두 작성해주세요!');
+            return;
         }
-        await addDoc(collection(db, 'voca'), new_data);
-        navigate('/');
+        else {
+            dispatch(fbActions.updateDefaultLastVisible());
+            let new_data = {
+                word: inputRefs.current[0].value,
+                pinyin: inputRefs.current[1].value,
+                mean: inputRefs.current[2].value,
+                example: inputRefs.current[3].value,
+                trans: inputRefs.current[4].value,
+                timestamp: Number(new Date()) // 정렬을 위한 타임스탬프 추가
+            }
+            await addDoc(collection(db, 'voca'), new_data);
+            navigate('/');
+        }
 
     }
 
     return(
         <InputsWrapper>
         <h4>{ title }</h4>
-        <input placeholder='단어' name='word_input' onChange={ChangeHandler}></input>
-        <input placeholder='병음' name='pinyin_input' onChange={ChangeHandler}></input>
-        <input placeholder='의미' name='mean_input' onChange={ChangeHandler}></input>
-        <input placeholder='예문' name='example_input' onChange={ChangeHandler}></input>
-        <input placeholder='해석' name='trans_input' onChange={ChangeHandler}></input>
-        <div className='button-area'> <button onClick={addBtnClickHandler}>추가하기</button></div>
+        <input placeholder='단어' name='word_input' onChange={ChangeHandler} ref={el => inputRefs.current[0] = el}></input>
+        <input placeholder='병음' name='pinyin_input' onChange={ChangeHandler} ref={el => inputRefs.current[1] = el}></input>
+        <input placeholder='의미' name='mean_input' onChange={ChangeHandler} ref={el => inputRefs.current[2] = el}></input>
+        <input placeholder='예문' name='example_input' onChange={ChangeHandler} ref={el => inputRefs.current[3] = el}></input>
+        <input placeholder='해석' name='trans_input' onChange={ChangeHandler} ref={el => inputRefs.current[4] = el}></input>
+        <div className='button-area'> <button onClick={addBtnClickHandler}>{btnText}</button></div>
         </InputsWrapper>
     )
 }

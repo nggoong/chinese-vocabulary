@@ -34,8 +34,8 @@ const App = () => {
       <Contents>
         <Routes>
           <Route path='/' element={<Home/>}/>
-          <Route path='/word/add' element={<InputPage title='단어 추가하기'/>}/>
-          <Route path='/word/edit/:id' element={<InputPage title='단어 수정하기'/>}/>
+          <Route path='/word/add' element={<InputPage title='단어 추가하기' btnText='추가하기'/>}/>
+          <Route path='/word/edit/:id' element={<InputPage title='단어 수정하기' btnText='수정하기'/>}/>
         </Routes>
       </Contents>
     </div>
