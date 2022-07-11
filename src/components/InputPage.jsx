@@ -11,19 +11,8 @@ const InputPage = ({ title, btnText }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const inputRef = useRef({
-        word_input:'',
-        pinyin_input:'',
-        mean_input:'',
-        example_input:'',
-        trans_input:''
-    })
-
     const inputRefs = useRef([]);
 
-    const ChangeHandler = (e) => {
-        inputRef.current = {...inputRef.current, [e.target.name]:e.target.value};
-    }
     const isComplete = () => {
         let result = true;
         for(let i of inputRefs.current) {
@@ -61,11 +50,11 @@ const InputPage = ({ title, btnText }) => {
     return(
         <InputsWrapper>
         <h4>{ title }</h4>
-        <input placeholder='단어' name='word_input' onChange={ChangeHandler} ref={el => inputRefs.current[0] = el}></input>
-        <input placeholder='병음' name='pinyin_input' onChange={ChangeHandler} ref={el => inputRefs.current[1] = el}></input>
-        <input placeholder='의미' name='mean_input' onChange={ChangeHandler} ref={el => inputRefs.current[2] = el}></input>
-        <input placeholder='예문' name='example_input' onChange={ChangeHandler} ref={el => inputRefs.current[3] = el}></input>
-        <input placeholder='해석' name='trans_input' onChange={ChangeHandler} ref={el => inputRefs.current[4] = el}></input>
+        <input placeholder='단어' name='word_input' ref={el => inputRefs.current[0] = el}></input>
+        <input placeholder='병음' name='pinyin_input' ref={el => inputRefs.current[1] = el}></input>
+        <input placeholder='의미' name='mean_input' ref={el => inputRefs.current[2] = el}></input>
+        <input placeholder='예문' name='example_input' ref={el => inputRefs.current[3] = el}></input>
+        <input placeholder='해석' name='trans_input' ref={el => inputRefs.current[4] = el}></input>
         <div className='button-area'> <button onClick={addBtnClickHandler}>{btnText}</button></div>
         </InputsWrapper>
     )
