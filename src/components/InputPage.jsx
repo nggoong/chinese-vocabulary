@@ -25,7 +25,6 @@ const InputPage = ({ title }) => {
 
     const addBtnClickHandler = async () => {
         dispatch(fbActions.updateDefaultLastVisible());
-        dispatch(vocaActions.setDefaultData());
         let { word_input, pinyin_input, mean_input, example_input, trans_input } = inputRef.current;
         let new_data = {
             word: word_input,

@@ -4,7 +4,7 @@ import VocaCard from './VocaCard'
 import {BsPlusLg} from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
-import { fetchVoca } from '../redux/modules/vocaReducer';
+import { vocaActions, fetchVoca } from '../redux/modules/vocaReducer';
 
 const Home = () => {
     const voca = useSelector((state)=>state.voca.data);
@@ -13,6 +13,7 @@ const Home = () => {
         const getVocas = () => {
             dispatch(fetchVoca());
         }
+        dispatch(vocaActions.setDefaultData());
         getVocas();
     }, [])
     

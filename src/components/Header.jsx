@@ -1,13 +1,21 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
 import {Link} from 'react-router-dom';
+import { vocaActions } from '../redux/modules/vocaReducer';
+import { fbActions } from '../redux/modules/fbReducer';
+
 
 const Header = () => {
-
+    const dispatch = useDispatch();
+    const headerClickhandler = () => {
+        dispatch(vocaActions.setDefaultData());
+        dispatch(fbActions.updateDefaultLastVisible());
+    }
 
     return(
         <HeaderWrapper>
-        <Link to="/"><p>중국어 단어장</p></Link>
+        <Link to="/" onClick={headerClickhandler}><p>중국어 단어장</p></Link>
         </HeaderWrapper>
     )
 }
