@@ -1,26 +1,49 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
-import { fetchVoca } from '../redux/modules/vocaReducer';
+import { vocaActions, fetchVoca } from '../redux/modules/vocaReducer';
+import { fbActions } from '../redux/modules/fbReducer';
 import {db} from '../firebase';
 import { doc, deleteDoc } from 'firebase/firestore';
 import {BsCheckCircle, BsPencilSquare, BsXCircle} from 'react-icons/bs';
 
-const VocaCard = ({ item }) => {
+const VocaCard = ({ item, idx, length }) => {
+    const [target, setTarget] = useState(null);
     const dispatch = useDispatch();
 
     const vocaDelete = async () => {
         let result = window.confirm('정말 삭제할까요?');
         if(result) {
+            dispatch(fbActions.updateDefaultLastVisible());
+            dispatch(vocaActions.setDefaultData());
             const docRef = doc(db, 'voca', item.docID);
             await deleteDoc(docRef);
-            alert('삭제 완료!');
-            await dispatch(fetchVoca());
+            dispatch(fetchVoca());
+            
         }
     }
 
+    const onIntersect = ([entry], observer) => {
+        if(entry.isIntersecting) {
+            dispatch(fetchVoca());
+            observer.unobserve(entry.target);
+        }
+    }
+
+    useEffect(() => {
+        let observer;
+        if(target) {
+            observer = new IntersectionObserver(onIntersect, {threshold:0.1});
+            observer.observe(target);
+        }
+
+        return(()=> {
+            observer && observer.disconnect();
+        })
+    }, [target]);
+
     return(
-        <VocaCardWrapper>
+        <VocaCardWrapper ref={idx === length - 1 ? setTarget : null}>
             <MainContents>
                 <h4>{item.word}</h4>
                 <div className='actions'>

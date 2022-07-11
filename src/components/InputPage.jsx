@@ -1,11 +1,15 @@
 import React, { useRef } from 'react';
 import styled from 'styled-components';
+import { fbActions } from '../redux/modules/fbReducer';
+import { vocaActions } from '../redux/modules/vocaReducer';
+import { useDispatch } from 'react-redux';
 import {db} from '../firebase';
 import { collection, addDoc } from 'firebase/firestore';
 import {useNavigate} from 'react-router-dom';
 
 const InputPage = ({ title }) => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const inputRef = useRef({
         word_input:'',
@@ -20,18 +24,18 @@ const InputPage = ({ title }) => {
     }
 
     const addBtnClickHandler = async () => {
+        dispatch(fbActions.updateDefaultLastVisible());
+        dispatch(vocaActions.setDefaultData());
+        let { word_input, pinyin_input, mean_input, example_input, trans_input } = inputRef.current;
         let new_data = {
-            word: inputRef.current.word_input,
-            pinyin: inputRef.current.pinyin_input,
-            mean: inputRef.current.mean_input,
-            example: inputRef.current.example_input,
-            trans: inputRef.current.trans_input,
+            word: word_input,
+            pinyin: pinyin_input,
+            mean: mean_input,
+            example: example_input,
+            trans: trans_input,
             timestamp: Number(new Date()) // 정렬을 위한 타임스탬프 추가
         }
-
-        console.log(new_data);
-        const data = await addDoc(collection(db, 'voca'), new_data);
-        console.log(data);
+        await addDoc(collection(db, 'voca'), new_data);
         navigate('/');
 
     }
