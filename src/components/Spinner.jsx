@@ -5,7 +5,6 @@ import {useSelector} from 'react-redux';
 
 const Spinner = () => {
     const loading = useSelector((state) => state.voca.isLoad);
-    console.log(loading)
     return(
         <SpinnerWrapper $loading={loading}>
             <p><CgSpinnerTwoAlt/></p>

@@ -24,7 +24,7 @@ const InputPage = ({ title, btnText, isEdit }) => {
         return result;
     }
 
-    const addBtnClickHandler = async () => {
+    const BtnClickHandler = async () => {
         const check = isComplete();
         if(!check) {
             alert('폼을 모두 작성해주세요!');
@@ -70,8 +70,8 @@ const InputPage = ({ title, btnText, isEdit }) => {
             }
 
             setInputValue();
-            
         }
+        inputRefs.current[0].focus();
     }, []);
 
     return(
@@ -82,7 +82,7 @@ const InputPage = ({ title, btnText, isEdit }) => {
         <input placeholder='의미' name='mean_input' ref={el => inputRefs.current[2] = el}></input>
         <input placeholder='예문' name='example_input' ref={el => inputRefs.current[3] = el}></input>
         <input placeholder='해석' name='trans_input' ref={el => inputRefs.current[4] = el}></input>
-        <div className='button-area'> <button onClick={addBtnClickHandler}>{btnText}</button></div>
+        <div className='button-area'> <button onClick={BtnClickHandler}>{btnText}</button></div>
         </InputsWrapper>
     )
 }
