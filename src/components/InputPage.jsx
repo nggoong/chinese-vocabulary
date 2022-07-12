@@ -9,6 +9,8 @@ const InputPage = ({ title, btnText, isEdit }) => {
     const params = useParams();
 
     const inputRefs = useRef([]);
+    const docTimestamp = useRef(null);
+
 
     const isComplete = () => {
         let result = true;
@@ -35,7 +37,7 @@ const InputPage = ({ title, btnText, isEdit }) => {
                 mean: inputRefs.current[2].value,
                 example: inputRefs.current[3].value,
                 trans: inputRefs.current[4].value,
-                timestamp: Number(new Date()) // 정렬을 위한 타임스탬프 추가
+                timestamp: isEdit? docTimestamp.current : Number(new Date()) // 정렬을 위한 타임스탬프 추가, 수정 시에는 기존 값 재사용
             }
             if(isEdit) {
                 const docRef = doc(db, 'voca', params.id);
@@ -56,6 +58,7 @@ const InputPage = ({ title, btnText, isEdit }) => {
                 else return {};
             }
 
+            // 수정 페이지일때 세팅
             const setInputValue = async () => {
                 const doc = await getOneDoc(params.id);
                 inputRefs.current[0].value = doc.word;
@@ -63,6 +66,7 @@ const InputPage = ({ title, btnText, isEdit }) => {
                 inputRefs.current[2].value = doc.mean;
                 inputRefs.current[3].value = doc.example;
                 inputRefs.current[4].value = doc.trans;
+                docTimestamp.current = doc.timestamp; // 수정 시에 기존 타임스탬프를 재사용하기 위함
             }
 
             setInputValue();
