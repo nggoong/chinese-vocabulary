@@ -22,7 +22,8 @@ export const fetchVoca = createAsyncThunk('voca/fetchVoca', async (_, {getState,
     else {
         res = await getDocs(query(vocaCollection, orderBy('timestamp', 'desc'), startAfter(fbState), limit(12)))
     }
-    dispatch(fbActions.updateLastVisible(res))
+    let snapshotDocs = res.docs;
+    dispatch(fbActions.updateLastVisible(snapshotDocs));
     let new_data = [];
     res.forEach((doc) => {
         let new_obj = {...doc.data(), docID:doc.id}

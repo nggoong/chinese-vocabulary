@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import styled from 'styled-components';
 import VocaCard from './VocaCard'
 import {BsPlusLg} from 'react-icons/bs';

@@ -11,10 +11,7 @@ const fbSlice = createSlice({
     initialState,
     reducers: {
         updateLastVisible: (state, action) => {
-            let newLastVisible = action.payload.docs[action.payload.docs.length - 1];
-            console.log(action.payload);
-            console.log(newLastVisible);
-            state.lastVisible = newLastVisible;
+            state.lastVisible = action.payload[action.payload.length - 1];
         },
         updateDefaultLastVisible: (state) => {
             state.lastVisible = null;

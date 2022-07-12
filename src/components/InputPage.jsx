@@ -1,15 +1,12 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { fbActions } from '../redux/modules/fbReducer';
-import { vocaActions } from '../redux/modules/vocaReducer';
-import { useDispatch } from 'react-redux';
 import {db} from '../firebase';
-import { collection, addDoc } from 'firebase/firestore';
-import {useNavigate} from 'react-router-dom';
+import { collection, addDoc, doc, getDoc, updateDoc } from 'firebase/firestore';
+import { useNavigate, useParams } from 'react-router-dom';
 
-const InputPage = ({ title, btnText }) => {
+const InputPage = ({ title, btnText, isEdit }) => {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const params = useParams();
 
     const inputRefs = useRef([]);
 
@@ -32,7 +29,6 @@ const InputPage = ({ title, btnText }) => {
             return;
         }
         else {
-            dispatch(fbActions.updateDefaultLastVisible());
             let new_data = {
                 word: inputRefs.current[0].value,
                 pinyin: inputRefs.current[1].value,
@@ -41,11 +37,38 @@ const InputPage = ({ title, btnText }) => {
                 trans: inputRefs.current[4].value,
                 timestamp: Number(new Date()) // 정렬을 위한 타임스탬프 추가
             }
-            await addDoc(collection(db, 'voca'), new_data);
+            if(isEdit) {
+                const docRef = doc(db, 'voca', params.id);
+                await updateDoc(docRef, new_data)
+            }
+            else await addDoc(collection(db, 'voca'), new_data);
             navigate('/');
         }
 
     }
+
+    useEffect(()=> {
+        if(isEdit) {
+            const getOneDoc = async (docID) => {
+                const docRef = doc(db, 'voca', docID);
+                const docSnap = await getDoc(docRef);
+                if(docSnap) return docSnap.data();
+                else return {};
+            }
+
+            const setInputValue = async () => {
+                const doc = await getOneDoc(params.id);
+                inputRefs.current[0].value = doc.word;
+                inputRefs.current[1].value = doc.pinyin;
+                inputRefs.current[2].value = doc.mean;
+                inputRefs.current[3].value = doc.example;
+                inputRefs.current[4].value = doc.trans;
+            }
+
+            setInputValue();
+            
+        }
+    }, []);
 
     return(
         <InputsWrapper>

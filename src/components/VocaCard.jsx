@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { vocaActions, fetchVoca } from '../redux/modules/vocaReducer';
 import { fbActions } from '../redux/modules/fbReducer';
@@ -9,6 +10,7 @@ import {BsCheckCircle, BsPencilSquare, BsXCircle} from 'react-icons/bs';
 
 const VocaCard = ({ item, idx, length }) => {
     const [target, setTarget] = useState(null);
+    const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const vocaDelete = async () => {
@@ -19,8 +21,11 @@ const VocaCard = ({ item, idx, length }) => {
             const docRef = doc(db, 'voca', item.docID);
             await deleteDoc(docRef);
             dispatch(fetchVoca());
-            
         }
+    }
+
+    const goToEdit = () => {
+        navigate(`/word/edit/${item.docID}`);
     }
 
     const onIntersect = ([entry], observer) => {
@@ -48,7 +53,7 @@ const VocaCard = ({ item, idx, length }) => {
                 <h4>{item.word}</h4>
                 <div className='actions'>
                     <div className='action-check btn'><p><BsCheckCircle/></p></div>
-                    <div className='action-edit btn'><p><BsPencilSquare/></p></div>
+                    <div className='action-edit btn' onClick={goToEdit}><p><BsPencilSquare/></p></div>
                     <div className='action-delete btn' onClick={vocaDelete}><p><BsXCircle/></p></div>
                 </div>
             </MainContents>
